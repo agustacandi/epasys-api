@@ -25,9 +25,11 @@ class RegisterRequest extends FormRequest
     {
         return [
             'nama' => 'required|string|max:255',
-            'email' => 'required|unique:users|email:rfc,dns|string|max:255',
+            'email' => 'required|unique:users|email:rfc,dns|string|max:100',
             'alamat' => 'required|string',
             'nim' => 'required|max:9|string|unique:users',
+            'no_telepon' => 'required|max:20|string|unique:users',
+            'tanggal_lahir' => 'required',
             'password' => 'required|min:8|confirmed|string',
         ];
     }

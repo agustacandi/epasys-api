@@ -153,7 +153,7 @@ class UserController extends Controller
 
             $user->update();
 
-            return ResponseFormatter::success($file, 'File successfully uploaded', 200);
+            return ResponseFormatter::success($user, 'File successfully uploaded', 200);
         }
     }
 }
