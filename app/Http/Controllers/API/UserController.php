@@ -80,6 +80,8 @@ class UserController extends Controller
                 'email' => $request->email,
                 'alamat' => $request->alamat,
                 'nim' => $request->nim,
+                'no_telepon' => $request->no_telepon,
+                'tanggal_lahir' => $request->tanggal_lahir,
                 'password' => Hash::make($request->password),
             ]);
 
