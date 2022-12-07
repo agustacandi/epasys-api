@@ -136,6 +136,7 @@ class UserController extends Controller
 
     public function updateAvatar(Request $request)
     {
+        $id = $request->input('id');
         $validator = FacadesValidator::make($request->all(), [
             'avatar' => 'required|image|max:2048 '
         ]);
@@ -149,7 +150,7 @@ class UserController extends Controller
         if ($request->file('avatar')) {
             $file = $request->avatar->store('assets/users', 'public');
 
-            $user = Auth::user();
+            $user = User::where('id', $id)->first();
 
             $user->avatar = $file;
 
