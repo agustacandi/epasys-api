@@ -124,9 +124,9 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         try {
-
+            $id = $request->input('id');
             $data = $request->all();
-            $user = Auth::user();
+            $user = User::where('id', $id)->first();
             $user->update($data);
             return ResponseFormatter::success($user, 'Profile Updated');
         } catch (Exception $error) {
@@ -137,26 +137,30 @@ class UserController extends Controller
     public function updateAvatar(Request $request)
     {
         $id = $request->input('id');
-        $validator = FacadesValidator::make($request->all(), [
-            'avatar' => 'required|image|max:2048 '
-        ]);
+        if ($id) {
+            $validator = FacadesValidator::make($request->all(), [
+                'avatar' => 'required|image|max:2048 '
+            ]);
 
-        if ($validator->fails()) {
-            return ResponseFormatter::error([
-                'error' => $validator->errors(),
-            ], 'Update avatar fails', 401);
-        }
+            if ($validator->fails()) {
+                return ResponseFormatter::error([
+                    'error' => $validator->errors(),
+                ], 'Update avatar fails', 401);
+            }
 
-        if ($request->file('avatar')) {
-            $file = $request->avatar->store('assets/users', 'public');
+            if ($request->file('avatar')) {
+                $file = $request->avatar->store('assets/users', 'public');
 
-            $user = User::where('id', $id)->first();
+                $user = User::where('id', $id)->first();
 
-            $user->avatar = $file;
+                $user->avatar = $file;
 
-            $user->update();
+                $user->update();
 
-            return ResponseFormatter::success($user, 'File successfully uploaded', 200);
+                return ResponseFormatter::success($user, 'File successfully uploaded', 200);
+            }
+        } else {
+            return ResponseFormatter::error(null, 'Failed to upload avatar');
         }
     }
 }
