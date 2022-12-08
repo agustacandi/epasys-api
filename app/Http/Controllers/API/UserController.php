@@ -10,6 +10,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
@@ -138,6 +139,8 @@ class UserController extends Controller
     {
         $id = $request->input('id');
         if ($id) {
+            $user = User::where('id', $id)->first();
+            $avatar = $user->avatar;
             $validator = FacadesValidator::make($request->all(), [
                 'avatar' => 'required|image|max:2048 '
             ]);
@@ -149,9 +152,10 @@ class UserController extends Controller
             }
 
             if ($request->file('avatar')) {
+                if ($avatar) {
+                    File::delete(storage_path('app/public/' . $avatar));
+                }
                 $file = $request->avatar->store('assets/users', 'public');
-
-                $user = User::where('id', $id)->first();
 
                 $user->avatar = $file;
 
