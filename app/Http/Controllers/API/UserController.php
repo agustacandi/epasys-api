@@ -106,12 +106,11 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         try {
-            // $token = $request->user()->currentAccessToken()->delete();
-            return $request->user();
+            $token = $request->user()->currentAccessToken()->delete();
 
-            // return ResponseFormatter::success([
-            //     'success' => $token
-            // ], 'Token revoked');
+            return ResponseFormatter::success([
+                'success' => $token
+            ], 'Token revoked');
         } catch (Exception $e) {
             ResponseFormatter::error($e, 'Logout failed');
         }
@@ -125,7 +124,7 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         try {
-            $id = $request->input('id');
+            $id = Auth::id();
             $data = $request->all();
             $user = User::where('id', $id)->first();
             $user->update($data);
@@ -137,34 +136,48 @@ class UserController extends Controller
 
     public function updateAvatar(Request $request)
     {
-        $id = $request->input('id');
-        if ($id) {
-            $user = User::where('id', $id)->first();
-            $avatar = $user->avatar;
-            $validator = FacadesValidator::make($request->all(), [
-                'avatar' => 'required|image|max:2048 '
-            ]);
+        $id = Auth::id();
+        $user = User::where('id', $id)->first();
+        $avatar = $user->avatar;
+        $validator = FacadesValidator::make($request->all(), [
+            'avatar' => 'required|image|max:2048 '
+        ]);
 
-            if ($validator->fails()) {
-                return ResponseFormatter::error([
-                    'error' => $validator->errors(),
-                ], 'Update avatar fails', 401);
-            }
-
-            if ($request->file('avatar')) {
-                if ($avatar) {
-                    File::delete(storage_path('app/public/' . $avatar));
-                }
-                $file = $request->avatar->store('assets/users', 'public');
-
-                $user->avatar = $file;
-
-                $user->update();
-
-                return ResponseFormatter::success($user, 'File successfully uploaded', 200);
-            }
-        } else {
-            return ResponseFormatter::error(null, 'Failed to upload avatar');
+        if ($validator->fails()) {
+            return ResponseFormatter::error([
+                'error' => $validator->errors(),
+            ], 'Update avatar fails', 401);
         }
+
+        if ($request->file('avatar')) {
+            if ($avatar) {
+                File::delete(storage_path('app/public/' . $avatar));
+            }
+            $file = $request->avatar->store('assets/users', 'public');
+
+            $user->avatar = $file;
+
+            $user->update();
+
+            return ResponseFormatter::success($user, 'File successfully uploaded', 200);
+        }
+        return ResponseFormatter::error(null, 'Failed to upload avatar');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed|string',
+        ]);
+
+        $id = Auth::id();
+
+        $user = User::where('id', $id)->first();
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return ResponseFormatter::success(null, 'Successfully update password');
     }
 }

@@ -20,7 +20,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    // User Route
     Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('/users/photo', [UserController::class, 'updateAvatar']);
+    Route::post('/users/password', [UserController::class, 'updatePassword']);
+    Route::post('/users', [UserController::class, 'updateProfile']);
     Route::get('/users', [UserController::class, 'fetch']);
 
     // Vechile Route
@@ -46,5 +50,3 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
-Route::post('/users/photo', [UserController::class, 'updateAvatar']);
-Route::post('/users', [UserController::class, 'updateProfile']);

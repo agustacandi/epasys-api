@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->text('alamat');
             $table->string('no_telepon', 20)->nullable()->unique();
-            $table->dateTime('tanggal_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
