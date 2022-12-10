@@ -28,25 +28,25 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/users', [UserController::class, 'fetch']);
 
     // Vechile Route
-    Route::get('/vechiles', [VechileController::class, 'all']);
     Route::post('/vechiles', [VechileController::class, 'store']);
     Route::post('/vechiles/update', [VechileController::class, 'update']);
     Route::delete('/vechiles', [VechileController::class, 'delete']);
 
     // Broadcast Route
-    Route::get('/broadcasts', [BroadcastController::class, 'all']);
     Route::post('/broadcasts', [BroadcastController::class, 'store']);
     Route::post('/broadcasts/update', [BroadcastController::class, 'update']);
     Route::delete('/broadcasts', [BroadcastController::class, 'delete']);
 
     // Parking Route
-    Route::get('/parkings', [ParkingController::class, 'all']);
     Route::post('/parkings', [ParkingController::class, 'store']);
 
     // Employee Route
     Route::post('/employees', [EmployeeController::class, 'store']);
     Route::post('/parkings/confirm', [ParkingController::class, 'confirm']);
 });
+Route::get('/broadcasts', [BroadcastController::class, 'all']);
+Route::get('/vechiles', [VechileController::class, 'all']);
+Route::get('/parkings', [ParkingController::class, 'all']);
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
