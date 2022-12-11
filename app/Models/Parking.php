@@ -28,14 +28,4 @@ class Parking extends Model
     {
         return $this->hasOne(User::class, 'id', 'id_user');
     }
-
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timestamp;
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timestamp;
-    }
 }

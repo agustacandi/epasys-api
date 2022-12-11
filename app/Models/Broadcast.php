@@ -21,14 +21,4 @@ class Broadcast extends Model
     {
         return $this->hasOne(Employee::class, 'id', 'id_karyawan');
     }
-
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timestamp;
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timestamp;
-    }
 }

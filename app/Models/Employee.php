@@ -13,14 +13,4 @@ class Employee extends Model
     protected $guarded = [
         'id'
     ];
-
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timestamp;
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timestamp;
-    }
 }
