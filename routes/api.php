@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/users/password', [UserController::class, 'updatePassword']);
     Route::post('/users', [UserController::class, 'updateProfile']);
     Route::get('/users', [UserController::class, 'fetch']);
+    Route::get('/user', [UserController::class, 'getUser']);
 
     // Vechile Route
     Route::post('/vechiles', [VechileController::class, 'store']);

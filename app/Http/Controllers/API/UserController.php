@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Exception;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -35,6 +36,17 @@ class UserController extends Controller
 
         return ResponseFormatter::success($users->paginate($limit), 'Berhasil mendapatkan data user');
     }
+
+    public function getUser(Request $request)
+    {
+        try {
+            $user = $request->user();
+            return ResponseFormatter::success($user, 'Sukses mendapatkan data user');
+        } catch (Exception $e) {
+            return ResponseFormatter::error(null, 'Gagal mendapatkan data user');
+        }
+    }
+
     public function login(LoginRequest $request)
     {
         try {
