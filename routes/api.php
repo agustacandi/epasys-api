@@ -39,10 +39,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Parking Route
     Route::post('/parkings', [ParkingController::class, 'store']);
+    Route::post('/parkings/confirm', [ParkingController::class, 'confirm']);
 
     // Employee Route
     Route::post('/employees', [EmployeeController::class, 'store']);
-    Route::post('/parkings/confirm', [ParkingController::class, 'confirm']);
 });
 Route::get('/broadcasts', [BroadcastController::class, 'all']);
 Route::get('/vechiles', [VechileController::class, 'all']);
