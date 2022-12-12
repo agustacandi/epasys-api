@@ -136,9 +136,8 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         try {
-            $id = Auth::id();
             $data = $request->all();
-            $user = User::where('id', $id)->first();
+            $user = $request->user();
             $user->update($data);
             return ResponseFormatter::success($user, 'Profile Updated');
         } catch (Exception $error) {
@@ -192,4 +191,9 @@ class UserController extends Controller
 
         return ResponseFormatter::success(null, 'Successfully update password');
     }
+
+    // public function bcrypt(Request $request) {
+    //     $password = $request->password;
+
+    // }
 }
