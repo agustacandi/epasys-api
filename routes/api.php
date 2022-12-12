@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Employee Route
     Route::post('/employees', [EmployeeController::class, 'store']);
+    Route::get('/employees', [EmployeeController::class, 'all']);
 });
 Route::get('/broadcasts', [BroadcastController::class, 'all']);
 Route::get('/vechiles', [VechileController::class, 'all']);

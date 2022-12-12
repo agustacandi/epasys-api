@@ -29,7 +29,7 @@ class EmployeeRequest extends FormRequest
             'role' => 'required|string',
             'alamat' => 'required|string',
             'avatar' => 'required|image:png,jpg,jpeg|max:2048',
-            'no_telepon' => 'required|unique:employees|max:13',
+            'no_telepon' => 'required|unique:employees|max:20',
             'password' => 'required|min:8|confirmed|string',
         ];
     }

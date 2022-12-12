@@ -13,4 +13,9 @@ class Employee extends Model
     protected $guarded = [
         'id'
     ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 }

@@ -8,12 +8,33 @@ use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\User;
 use Exception;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Nette\Utils\Strings;
 
 class EmployeeController extends Controller
 {
+    public function all(Request $request)
+    {
+        try {
+            $role = $request->input('role');
+            if ($role) {
+                $roleUppercase = Strings::upper($role);
+                $employee = Employee::where('role', $roleUppercase)->get();
+                // $employee = Employee::all();
+                return ResponseFormatter::success($employee, 'Berhasil mendapatkan semua data karyawan');
+            } else {
+                return ResponseFormatter::error(null, 'Gagal mendapatkan semua data karyawan');
+            }
+            $employees = Employee::all();
+            return ResponseFormatter::success($employees, 'Berhasil mendapatkan semua data karyawan');
+        } catch (Exception $e) {
+            return ResponseFormatter::error(null, 'Gagal mendapatkan semua data karyawan');
+        }
+    }
+
     public function store(EmployeeRequest $request)
     {
         try {
