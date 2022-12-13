@@ -15,7 +15,6 @@ class VechileController extends Controller
     public function all(Request $request)
     {
         $id = $request->input('id');
-        $limit = $request->input('limit', 6);
 
         if ($id) {
             $vechile = Vechile::with(['user'])->find($id);
@@ -29,7 +28,7 @@ class VechileController extends Controller
 
         $vechiles = Vechile::with(['user']);
 
-        return ResponseFormatter::success($vechiles->paginate($limit), 'Berhasil mendapatkan data');
+        return ResponseFormatter::success($vechiles, 'Berhasil mendapatkan data');
     }
 
     public function store(StoreVechileRequest $request)
