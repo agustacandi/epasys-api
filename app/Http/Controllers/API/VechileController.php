@@ -26,7 +26,7 @@ class VechileController extends Controller
             }
         }
 
-        $vechiles = Vechile::with(['user']);
+        $vechiles = Vechile::with(['user'])->all();
 
         return ResponseFormatter::success($vechiles, 'Berhasil mendapatkan data');
     }
