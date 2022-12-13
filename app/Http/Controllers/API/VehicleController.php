@@ -15,10 +15,20 @@ class VehicleController extends Controller
     public function all(Request $request)
     {
         $id = $request->input('id');
+        $user_id = $request->input('user_id');
 
         if ($id) {
             $vehicle = Vehicle::with(['user'])->find($id);
 
+            if ($vehicle) {
+                return ResponseFormatter::success($vehicle, 'Berhasil mendapatkan data');
+            } else {
+                return ResponseFormatter::error(null, 'Data yang anda cari tidak ada', 404);
+            }
+        }
+
+        if ($user_id) {
+            $vehicle = Vehicle::with(['user'])->where('id_user', $user_id)->get();
             if ($vehicle) {
                 return ResponseFormatter::success($vehicle, 'Berhasil mendapatkan data');
             } else {
