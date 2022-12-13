@@ -4,8 +4,7 @@ use App\Http\Controllers\API\BroadcastController;
 use App\Http\Controllers\API\EmployeeController;
 use App\Http\Controllers\API\ParkingController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\API\VechileController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\VehicleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,9 +28,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [UserController::class, 'getUser']);
 
     // Vechile Route
-    Route::post('/vechiles', [VechileController::class, 'store']);
-    Route::post('/vechiles/update', [VechileController::class, 'update']);
-    Route::delete('/vechiles', [VechileController::class, 'delete']);
+    Route::post('/vehicles', [VehicleController::class, 'store']);
+    Route::post('/vehicles/update', [VehicleController::class, 'update']);
+    Route::delete('/vehicles', [VehicleController::class, 'delete']);
 
     // Broadcast Route
     Route::post('/broadcasts', [BroadcastController::class, 'store']);
@@ -48,7 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::get('/employees', [EmployeeController::class, 'all']);
 Route::get('/broadcasts', [BroadcastController::class, 'all']);
-Route::get('/vechiles', [VechileController::class, 'all']);
+Route::get('/vehicles', [VehicleController::class, 'all']);
 Route::get('/parkings', [ParkingController::class, 'all']);
 
 Route::post('/login', [UserController::class, 'login']);
