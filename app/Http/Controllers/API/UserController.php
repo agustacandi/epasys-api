@@ -153,7 +153,7 @@ class UserController extends Controller
 
                 $request->avatar = $file;
             }
-            $user->update($data);
+            $user->update($request->all());
             return ResponseFormatter::success($user, 'Profile Updated');
         } catch (Exception $error) {
             return ResponseFormatter::error($error, 'Gagal mengubah data user', 401);
