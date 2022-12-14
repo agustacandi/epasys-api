@@ -136,9 +136,33 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         try {
-            $data = $request->all();
             $user = $request->user();
-            $user->update($data);
+            $validator = FacadesValidator::make($request->avatar, [
+                'avatar' => 'required|image|max:2048 '
+            ]);
+
+            if ($validator->fails()) {
+                return ResponseFormatter::error([
+                    'error' => $validator->errors(),
+                ], 'Update avatar fails', 401);
+            }
+            if ($request->file('avatar')) {
+                File::delete(storage_path('app/public/' . $user->avatar));
+                $file = $request->avatar->store('assets/users', 'public');
+
+                $user->update([
+                    'nama' => $request->nama,
+                    'nim' => $request->nim,
+                    'tanggal_lahir' => $request->tanggal_lahir,
+                    'alamat' => $request->alamat,
+                    'no_telepon' => $request->no_telepon,
+                    'email' => $request->email,
+                    'avatar' => $file,
+                ]);
+
+                return ResponseFormatter::success($user, 'Profile Updated');
+            }
+            $user->update($request->all());
             return ResponseFormatter::success($user, 'Profile Updated');
         } catch (Exception $error) {
             return ResponseFormatter::error($error, 'Gagal mengubah data user', 401);
