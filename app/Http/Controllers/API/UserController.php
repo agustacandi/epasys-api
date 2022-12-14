@@ -137,7 +137,7 @@ class UserController extends Controller
     {
         try {
             $user = $request->user();
-            $validator = FacadesValidator::make($request->avatar, [
+            $validator = FacadesValidator::make($request->all(), [
                 'avatar' => 'required|image|max:2048 '
             ]);
 
