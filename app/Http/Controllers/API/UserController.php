@@ -138,21 +138,6 @@ class UserController extends Controller
         try {
             $data = $request->all();
             $user = $request->user();
-            $validator = FacadesValidator::make($data, [
-                'avatar' => 'required|image|max:2048 '
-            ]);
-
-            if ($validator->fails()) {
-                return ResponseFormatter::error([
-                    'error' => $validator->errors(),
-                ], 'Update avatar fails', 401);
-            }
-            if ($request->file('avatar')) {
-                File::delete(storage_path('app/public/' . $user->avatar));
-                $file = $request->avatar->store('assets/users', 'public');
-
-                $request->avatar = $file;
-            }
             $user->update($request->all());
             return ResponseFormatter::success($user, 'Profile Updated');
         } catch (Exception $error) {
