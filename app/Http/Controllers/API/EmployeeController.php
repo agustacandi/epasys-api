@@ -25,8 +25,6 @@ class EmployeeController extends Controller
                 $employee = Employee::where('role', $roleUppercase)->get();
                 // $employee = Employee::all();
                 return ResponseFormatter::success($employee, 'Berhasil mendapatkan semua data karyawan');
-            } else {
-                return ResponseFormatter::error(null, 'Gagal mendapatkan semua data karyawan');
             }
             $employees = Employee::all();
             return ResponseFormatter::success($employees, 'Berhasil mendapatkan semua data karyawan');
