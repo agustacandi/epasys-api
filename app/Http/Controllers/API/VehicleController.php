@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreVechileRequest;
+use App\Http\Requests\StoreVehicleRequest;
 use App\Models\Vehicle;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,34 +14,30 @@ class VehicleController extends Controller
 {
     public function all(Request $request)
     {
-        $id = $request->input('id');
-        $user_id = $request->input('user_id');
+        try {
+            $id = $request->input('id');
+            $user = $request->user();
 
-        if ($id) {
-            $vehicle = Vehicle::with(['user'])->find($id);
+            if ($id) {
+                $vehicle = Vehicle::with(['user'])->find($id);
 
-            if ($vehicle) {
-                return ResponseFormatter::success($vehicle, 'Berhasil mendapatkan data');
-            } else {
-                return ResponseFormatter::error(null, 'Data yang anda cari tidak ada', 404);
+                if ($vehicle) {
+                    return ResponseFormatter::success($vehicle, 'Berhasil mendapatkan data');
+                } else {
+                    return ResponseFormatter::error(null, 'Data yang anda cari tidak ada', 404);
+                }
             }
+
+
+            $vehicles = Vehicle::with(['user'])->where('id_user', $user->id)->get();
+
+            return ResponseFormatter::success($vehicles, 'Berhasil mendapatkan data');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
         }
-
-        if ($user_id) {
-            $vehicle = Vehicle::with(['user'])->where('id_user', $user_id)->get();
-            if ($vehicle) {
-                return ResponseFormatter::success($vehicle, 'Berhasil mendapatkan data');
-            } else {
-                return ResponseFormatter::error(null, 'Data yang anda cari tidak ada', 404);
-            }
-        }
-
-        $vehicles = Vehicle::with(['user'])->get();
-
-        return ResponseFormatter::success($vehicles, 'Berhasil mendapatkan data');
     }
 
-    public function store(StoreVechileRequest $request)
+    public function store(StoreVehicleRequest $request)
     {
         try {
             $request->validated($request->all());
@@ -77,7 +73,7 @@ class VehicleController extends Controller
         }
     }
 
-    public function update(StoreVechileRequest $request,)
+    public function update(StoreVehicleRequest $request,)
     {
         try {
             $id = $request->input('id');
