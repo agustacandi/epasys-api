@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [UserController::class, 'getUser']);
 
     // Vechile Route
+    Route::get('/vehicles', [VehicleController::class, 'all']);
     Route::post('/vehicles', [VehicleController::class, 'store']);
     Route::post('/vehicles/update', [VehicleController::class, 'update']);
     Route::delete('/vehicles', [VehicleController::class, 'delete']);
@@ -47,7 +48,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::get('/employees', [EmployeeController::class, 'all']);
 Route::get('/broadcasts', [BroadcastController::class, 'all']);
-Route::get('/vehicles', [VehicleController::class, 'all']);
 Route::get('/parkings', [ParkingController::class, 'all']);
 
 Route::post('/login', [UserController::class, 'login']);
