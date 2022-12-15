@@ -25,7 +25,7 @@ class StoreVehicleRequest extends FormRequest
     {
         return [
             'merek' => 'required|string|max:255',
-            'no_polisi' => 'required|string|unique:vechiles|max:10',
+            'no_polisi' => 'required|string|unique:vehicles|max:10',
             'foto_stnk' => 'required|image:jpeg,jpg,png|max:2048',
             'foto_kendaraan' => 'required|image:jpeg,jpg,png|max:2048',
         ];
