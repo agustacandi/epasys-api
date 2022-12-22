@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('parkings', function (Blueprint $table) {
             $table->id();
+            $table->string('nomor_parkir')->unique();
             $table->enum('status', ['IN', 'OUT']);
             $table->integer('helm')->default(0);
             $table->boolean('is_expired')->default(false);

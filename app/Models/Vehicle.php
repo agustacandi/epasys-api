@@ -10,6 +10,7 @@ class Vehicle extends Model
     use HasFactory;
 
     protected $fillable = [
+        'nama',
         'merek',
         'no_polisi',
         'foto_stnk',

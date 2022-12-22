@@ -24,6 +24,7 @@ class StoreVehicleRequest extends FormRequest
     public function rules()
     {
         return [
+            'nama' => 'required|string|max:255',
             'merek' => 'required|string|max:255',
             'no_polisi' => 'required|string|unique:vehicles|max:10',
             'foto_stnk' => 'required|image:jpeg,jpg,png|max:2048',

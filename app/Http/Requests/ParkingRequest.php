@@ -24,11 +24,12 @@ class ParkingRequest extends FormRequest
     public function rules()
     {
         return [
+            'nomor_parkir' => 'required|string|unique:parkings|max:30',
             'status' => 'required|string',
             'helm' => 'required|integer',
-            'is_expired' => 'required|boolean',
+            'is_expired' => 'boolean',
             'id_kendaraan' => 'required|integer',
-            'id_karyawan' => 'required|integer',
+            'id_karyawan' => 'integer',
         ];
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('deskripsi');
             $table->string('email');
             $table->enum('role', ['TEKNISI', 'SATPAM']);
             $table->string('alamat');

@@ -52,6 +52,7 @@ class VehicleController extends Controller
             }
 
             Vehicle::create([
+                'nama' => $request->nama,
                 'merek' => $request->merek,
                 'no_polisi' => $request->no_polisi,
                 'foto_stnk' => $foto_stnk,
@@ -73,11 +74,10 @@ class VehicleController extends Controller
         }
     }
 
-    public function update(StoreVehicleRequest $request,)
+    public function update(Request $request,)
     {
         try {
             $id = $request->input('id');
-            $request->validated($request->all());
             $vehicle = Vehicle::where('id', $id)->first();
             $validatedData = $request->all();
             $foto_stnk = $vehicle->foto_stnk;
@@ -92,8 +92,6 @@ class VehicleController extends Controller
                 $foto_kendaraan = $request->foto_kendaraan->store('assets/kendaraan', 'public');
             }
 
-            $validatedData['merek'] = $request->merek;
-            $validatedData['no_polisi'] = $request->no_polisi;
             $validatedData['foto_stnk'] = $foto_stnk;
             $validatedData['foto_kendaraan'] = $foto_kendaraan;
 
@@ -115,7 +113,7 @@ class VehicleController extends Controller
         $id = $request->input('id');
 
         if ($id) {
-            $vehicle = Vehicle::with('user')->find($id);
+            $vehicle = Vehicle::with(['user'])->find($id);
             if ($vehicle) {
                 File::delete(storage_path('app/public/' . $vehicle->foto_stnk));
                 File::delete(storage_path('app/public/' . $vehicle->foto_kendaraan));

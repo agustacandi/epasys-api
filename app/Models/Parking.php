@@ -14,9 +14,9 @@ class Parking extends Model
         'id'
     ];
 
-    public function vechile()
+    public function vehicle()
     {
-        return $this->hasOne(Vechile::class, 'id', 'id_kendaraan');
+        return $this->hasOne(Vehicle::class, 'id', 'id_kendaraan');
     }
 
     public function employee()

@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/broadcasts', [BroadcastController::class, 'delete']);
 
     // Parking Route
+    Route::get('/parkings', [ParkingController::class, 'get']);
+    Route::get('/parkings/latest', [ParkingController::class, 'getLatestHistory']);
+    Route::get('/parkings/out', [ParkingController::class, 'getCheckOut']);
     Route::post('/parkings', [ParkingController::class, 'store']);
     Route::post('/parkings/confirm', [ParkingController::class, 'confirm']);
 
@@ -48,7 +51,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::get('/employees', [EmployeeController::class, 'all']);
 Route::get('/broadcasts', [BroadcastController::class, 'all']);
-Route::get('/parkings', [ParkingController::class, 'all']);
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);

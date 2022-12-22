@@ -25,6 +25,7 @@ class EmployeeRequest extends FormRequest
     {
         return [
             'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:255',
             'email' => 'required|unique:employees|email:rfc,dns|string|max:255',
             'role' => 'required|string',
             'alamat' => 'required|string',
