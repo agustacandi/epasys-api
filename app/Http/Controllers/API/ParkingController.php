@@ -15,7 +15,27 @@ class ParkingController extends Controller
     {
         try {
             $user = $request->user();
-            $parkings = Parking::with(['vehicle', 'employee', 'user'])->where('id_user', $user->id)->latest()->get();
+            $parkings = Parking::with(['vehicle', 'employee', 'user'])->where('id_user', $user->id)->where('is_expired', true)->latest()->get();
+            return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
+        }
+    }
+
+    public function countCheckIn(Request $request)
+    {
+        try {
+            $parkings = Parking::where('status', 'IN')->count();
+            return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
+        }
+    }
+
+    public function countCheckOut(Request $request)
+    {
+        try {
+            $parkings = Parking::where('is_expired', true)->where('status', 'OUT')->count();
             return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
         } catch (Exception $e) {
             return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
@@ -56,11 +76,13 @@ class ParkingController extends Controller
     public function confirm(Request $request)
     {
         $id = $request->input(('id'));
+        $user = $request->user();
         if ($id) {
             $parking = Parking::where('id', $id)->first();
             if ($parking) {
                 $parking->update([
-                    'is_expired' => true
+                    'is_expired' => true,
+                    'created_at' => now('Asia/Jakarta'),
                 ]);
                 return ResponseFormatter::success($parking, 'Berhasil mengonfirmasi check out parkir');
             } else {

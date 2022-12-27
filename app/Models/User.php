@@ -49,6 +49,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getCreatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value)->setTimezone('Asia/Jakarta');
+        return $date->format('Y-m-d H:i');
+    }
+    public function getUpdatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value)->setTimezone('Asia/Jakarta');
+        return $date->format('Y-m-d H:i');
+    }
+
     public function parking()
     {
         return $this->hasMany(Parking::class, 'id_user', 'id');

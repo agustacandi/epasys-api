@@ -17,6 +17,17 @@ class Broadcast extends Model
         'id_karyawan'
     ];
 
+    public function getCreatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value)->setTimezone('Asia/Jakarta');
+        return $date->format('Y-m-d H:i');
+    }
+    public function getUpdatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value)->setTimezone('Asia/Jakarta');
+        return $date->format('Y-m-d H:i');
+    }
+
     public function employee()
     {
         return $this->hasOne(Employee::class, 'id', 'id_karyawan');

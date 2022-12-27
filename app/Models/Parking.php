@@ -14,6 +14,17 @@ class Parking extends Model
         'id'
     ];
 
+    public function getCreatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value)->setTimezone('Asia/Jakarta');
+        return $date->format('Y-m-d H:i');
+    }
+    public function getUpdatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value)->setTimezone('Asia/Jakarta');
+        return $date->format('Y-m-d H:i');
+    }
+
     public function vehicle()
     {
         return $this->hasOne(Vehicle::class, 'id', 'id_kendaraan');

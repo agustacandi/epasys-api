@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('helm')->default(0);
             $table->boolean('is_expired')->default(false);
             $table->unsignedBigInteger('id_kendaraan');
-            $table->unsignedBigInteger('id_karyawan');
+            $table->unsignedBigInteger('id_karyawan')->default(1);
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_kendaraan')
                 ->references('id')

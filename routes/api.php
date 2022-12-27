@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Broadcast Route
     Route::post('/broadcasts', [BroadcastController::class, 'store']);
+    Route::get('/broadcasts/token', [BroadcastController::class, 'getBroadcastsByToken']);
     Route::post('/broadcasts/update', [BroadcastController::class, 'update']);
     Route::delete('/broadcasts', [BroadcastController::class, 'delete']);
 
@@ -47,10 +48,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Employee Route
     Route::post('/employees', [EmployeeController::class, 'store']);
+    Route::get('/employees/auth', [EmployeeController::class, 'getCurrentEmployee']);
 });
+
+Route::get('/parkings/in/count', [ParkingController::class, 'countCheckIn']);
+Route::get('/parkings/out/count', [ParkingController::class, 'countCheckOut']);
 
 Route::get('/employees', [EmployeeController::class, 'all']);
 Route::get('/broadcasts', [BroadcastController::class, 'all']);
 
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/login-employee', [EmployeeController::class, 'loginEmployee']);
 Route::post('/register', [UserController::class, 'register']);

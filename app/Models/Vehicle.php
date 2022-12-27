@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,17 @@ class Vehicle extends Model
         'foto_kendaraan',
         'id_user',
     ];
+
+    public function getCreatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value)->setTimezone('Asia/Jakarta');
+        return $date->format('Y-m-d H:i');
+    }
+    public function getUpdatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value)->setTimezone('Asia/Jakarta');
+        return $date->format('Y-m-d H:i');
+    }
 
     public function user()
     {

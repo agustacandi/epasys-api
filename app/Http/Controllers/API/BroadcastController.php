@@ -91,6 +91,23 @@ class BroadcastController extends Controller
         }
     }
 
+    public function getBroadcastsByToken(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $broadcasts = Broadcast::with(['employee'])->where('id_karyawan', $user->id)->get();
+            if ($broadcasts) {
+                return ResponseFormatter::success($broadcasts, 'Berhasil mendapatkan data');
+            } else {
+                return ResponseFormatter::error(null, 'Data yang anda cari tidak ada', 404);
+            }
+        } catch (Exception $error) {
+            return ResponseFormatter::error([
+                'error' => $error
+            ], 'Gagal mendapatkan data broadcast', 500);
+        }
+    }
+
     public function delete(Request $request)
     {
         $id = $request->input('id');

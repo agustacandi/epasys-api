@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmployeeLoginRequest;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\User;
 use Exception;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -33,6 +33,11 @@ class EmployeeController extends Controller
         }
     }
 
+    public function getCurrentEmployee(Request $request)
+    {
+        return ResponseFormatter::success($request->user(), 'Succesfull fetch user');
+    }
+
     public function store(EmployeeRequest $request)
     {
         try {
@@ -45,6 +50,7 @@ class EmployeeController extends Controller
 
             Employee::create([
                 'nama' => $request->nama,
+                'deskripsi' => $request->deskripsi,
                 'email' => $request->email,
                 'role' => $request->role,
                 'alamat' => $request->alamat,
@@ -66,27 +72,22 @@ class EmployeeController extends Controller
         }
     }
 
-    public function login(Request $request)
+    public function loginEmployee(EmployeeLoginRequest $request)
     {
         try {
-            $request->validate([
-                'email' => 'required|email:dns,rfc|string|max:255',
-                'password' => 'required|string|min:8',
-            ]);
-
-            $credentials = request(['email', 'password']);
-
-            if (!Auth::attempt($credentials)) {
-                return ResponseFormatter::error([
-                    'message' => 'Unauthorized',
-                ], 'Authentication failed', 500);
-            }
+            $request->validated($request->all());
 
             $employee = Employee::where('email', $request->email)->first();
 
-            if (!Hash::check($request->password, $employee->password)) {
+            if ($employee) {
+                if (!Hash::check($request->password, $employee->password)) {
+                    return ResponseFormatter::error([
+                        'message' => 'Unauthorized',
+                    ], 'Invalid credentials', 500);
+                }
+            } else {
                 return ResponseFormatter::error([
-                    'message' => 'Unauthorized',
+                    'message' => 'Employee not found',
                 ], 'Invalid credentials', 500);
             }
 
