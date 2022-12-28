@@ -6,6 +6,8 @@ use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParkingRequest;
 use App\Models\Parking;
+use Carbon\Carbon;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,7 @@ class ParkingController extends Controller
     public function countCheckIn(Request $request)
     {
         try {
-            $parkings = Parking::where('status', 'IN')->count();
+            $parkings = Parking::where('status', 'IN')->where('created_at', Carbon::now())->count();
             return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
         } catch (Exception $e) {
             return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
@@ -35,7 +37,7 @@ class ParkingController extends Controller
     public function countCheckOut(Request $request)
     {
         try {
-            $parkings = Parking::where('is_expired', true)->where('status', 'OUT')->count();
+            $parkings = Parking::where('is_expired', true)->where('status', 'OUT')->where('created_at', Carbon::now())->count();
             return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
         } catch (Exception $e) {
             return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
@@ -59,6 +61,17 @@ class ParkingController extends Controller
             $user = $request->user();
             $parking = Parking::with(['vehicle', 'employee', 'user'])->where('id_user', $user->id)->where('is_expired', false)->where('status', 'OUT')->first();
             return ResponseFormatter::success($parking, 'Berhasil mendapatkan data');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
+        }
+    }
+
+    public function getCurrentParkings(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $parkings = Parking::with(['vehicle', 'employee', 'user'])->where('id_user', $user->id)->where('is_expired', false)->where('created_at', Carbon::today())->get();
+            return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
         } catch (Exception $e) {
             return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
         }
