@@ -27,7 +27,7 @@ class ParkingController extends Controller
     public function countCheckIn(Request $request)
     {
         try {
-            $parkings = Parking::where('status', 'IN')->where('created_at', Carbon::now())->count();
+            $parkings = Parking::where('status', 'IN')->whereDate('created_at', date('Y-m-d'))->count();
             return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
         } catch (Exception $e) {
             return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
@@ -37,7 +37,7 @@ class ParkingController extends Controller
     public function countCheckOut(Request $request)
     {
         try {
-            $parkings = Parking::where('is_expired', true)->where('status', 'OUT')->where('created_at', Carbon::now())->count();
+            $parkings = Parking::where('is_expired', true)->where('status', 'OUT')->whereDate('created_at', date('Y-m-d'))->count();
             return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
         } catch (Exception $e) {
             return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
