@@ -70,7 +70,7 @@ class ParkingController extends Controller
     {
         try {
             $user = $request->user();
-            $parkings = Parking::with(['vehicle', 'employee', 'user'])->where('id_user', $user->id)->where('is_expired', true)->whereDate('created_at', date('Y-m-d'))->get();
+            $parkings = Parking::with(['vehicle', 'employee', 'user'])->where('id_user', $user->id)->where('is_expired', false)->whereDate('created_at', date('Y-m-d'))->get();
             return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
         } catch (Exception $e) {
             return ResponseFormatter::error($e, 'Gagal mendapatkan data', 404);
