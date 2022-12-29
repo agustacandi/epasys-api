@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/employees/photo', [EmployeeController::class, 'updateAvatar']);
     Route::get('/employees/auth', [EmployeeController::class, 'getCurrentEmployee']);
     Route::post('/employees/auth/active', [EmployeeController::class, 'activeEmployee']);
+    Route::post('/employees/auth/deactive', [EmployeeController::class, 'deactiveEmployee']);
 });
 
 Route::get('/parkings/today', [ParkingController::class, 'getCurrentParkings']);
