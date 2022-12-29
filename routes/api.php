@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Employee Route
     Route::post('/employees', [EmployeeController::class, 'store']);
     Route::get('/employees/auth', [EmployeeController::class, 'getCurrentEmployee']);
+    Route::post('/employees/auth/active', [EmployeeController::class, 'activeEmployee']);
 });
 
 Route::get('/parkings/today', [ParkingController::class, 'getCurrentParkings']);
