@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('deskripsi');
             $table->string('email');
+            $table->bool('is_active')->default(false);
             $table->enum('role', ['TEKNISI', 'SATPAM']);
             $table->string('alamat');
             $table->string('no_telepon')->unique();
