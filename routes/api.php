@@ -48,6 +48,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Employee Route
     Route::post('/employees', [EmployeeController::class, 'store']);
+    Route::post('/employees/update', [EmployeeController::class, 'updateProfile']);
+    Route::post('/employees/update/password', [EmployeeController::class, 'updatePassword']);
+    Route::post('/employees/photo', [EmployeeController::class, 'updateAvatar']);
     Route::get('/employees/auth', [EmployeeController::class, 'getCurrentEmployee']);
     Route::post('/employees/auth/active', [EmployeeController::class, 'activeEmployee']);
 });

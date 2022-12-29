@@ -10,8 +10,9 @@ use App\Models\Employee;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
 use Nette\Utils\Strings;
 
 class EmployeeController extends Controller
@@ -33,6 +34,35 @@ class EmployeeController extends Controller
         }
     }
 
+    public function updateAvatar(Request $request)
+    {
+        $user = $request->user();
+        $avatar = $user->avatar;
+        $validator = FacadesValidator::make($request->all(), [
+            'avatar' => 'required|image|max:2048 '
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseFormatter::error([
+                'error' => $validator->errors(),
+            ], 'Update avatar fails', 401);
+        }
+
+        if ($request->file('avatar')) {
+            if ($avatar) {
+                File::delete(storage_path('app/public/' . $avatar));
+            }
+            $file = $request->avatar->store('assets/karyawan', 'public');
+
+            $user->avatar = $file;
+
+            $user->update();
+
+            return ResponseFormatter::success($user, 'File successfully uploaded', 200);
+        }
+        return ResponseFormatter::error(null, 'Failed to upload avatar');
+    }
+
     public function activeEmployee(Request $request)
     {
         try {
@@ -44,6 +74,46 @@ class EmployeeController extends Controller
         } catch (Exception $e) {
             return ResponseFormatter::error(null, 'Gagal mengaktifkan karyawan');
         }
+    }
+
+    public function deactiveEmployee(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $user->update([
+                'is_active' => false
+            ]);
+            return ResponseFormatter::success($user, 'Berhasil menonaktifkan karyawan');
+        } catch (Exception $e) {
+            return ResponseFormatter::error(null, 'Gagal menonaktifkan karyawan');
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $user = $request->user();
+            $user->update($request->all());
+            return ResponseFormatter::success($user, 'Profile Updated');
+        } catch (Exception $error) {
+            return ResponseFormatter::error($error, 'Gagal mengubah data user', 401);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed|string',
+        ]);
+
+        $user = $request->user();
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return ResponseFormatter::success(null, 'Successfully update password');
     }
 
     public function getCurrentEmployee(Request $request)

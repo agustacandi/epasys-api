@@ -181,9 +181,7 @@ class UserController extends Controller
             'password' => 'required|min:8|confirmed|string',
         ]);
 
-        $id = Auth::id();
-
-        $user = User::where('id', $id)->first();
+        $user = $request->user();
 
         $user->update([
             'password' => Hash::make($request->password),
