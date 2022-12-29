@@ -44,6 +44,7 @@ class ParkingController extends Controller
         }
     }
 
+
     public function getLatestHistory(Request $request)
     {
         try {

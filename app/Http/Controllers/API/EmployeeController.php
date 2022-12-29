@@ -33,6 +33,19 @@ class EmployeeController extends Controller
         }
     }
 
+    public function activeEmployee(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $user->update([
+                'is_active' => true
+            ]);
+            return ResponseFormatter::success($user, 'Berhasil mengaktifkan karyawan');
+        } catch (Exception $e) {
+            return ResponseFormatter::error(null, 'Gagal mengaktifkan karyawan');
+        }
+    }
+
     public function getCurrentEmployee(Request $request)
     {
         return ResponseFormatter::success($request->user(), 'Succesfull fetch user');
