@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeLoginRequest;
+use App\Http\Requests\EmployeeRegisterRequest;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\User;
@@ -189,16 +190,18 @@ class EmployeeController extends Controller
         }
     }
 
-    public function register(Request $request)
+    public function registerEmployee(EmployeeRegisterRequest $request)
     {
         try {
             $request->validated($request->all());
 
             User::create([
                 'nama' => $request->nama,
+                'deskripsi' => $request->deskripsi,
                 'email' => $request->email,
                 'alamat' => $request->alamat,
-                'nim' => $request->nim,
+                'role' => 'SATPAM',
+                'no_telepon' => $request->no_telepon,
                 'password' => Hash::make($request->password),
             ]);
 

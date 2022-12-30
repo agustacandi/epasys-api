@@ -5,6 +5,7 @@ use App\Http\Controllers\API\EmployeeController;
 use App\Http\Controllers\API\ParkingController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\VehicleController;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,3 +67,4 @@ Route::get('/broadcasts', [BroadcastController::class, 'all']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/login-employee', [EmployeeController::class, 'loginEmployee']);
 Route::post('/register', [UserController::class, 'register']);
+Route::post('/register-employee', [Employee::class, 'register']);
