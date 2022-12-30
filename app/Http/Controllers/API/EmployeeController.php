@@ -195,7 +195,7 @@ class EmployeeController extends Controller
         try {
             $request->validated($request->all());
 
-            User::create([
+            Employee::create([
                 'nama' => $request->nama,
                 'deskripsi' => $request->deskripsi,
                 'email' => $request->email,
@@ -205,7 +205,7 @@ class EmployeeController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            $user = User::where('email', $request->email)->first();
+            $user = Employee::where('email', $request->email)->first();
 
             $tokenResult = $user->createToken('authToken')->plainTextToken;
 
