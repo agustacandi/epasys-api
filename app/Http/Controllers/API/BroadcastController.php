@@ -15,7 +15,6 @@ class BroadcastController extends Controller
     public function all(Request $request)
     {
         $id = $request->input('id');
-        $limit = $request->input('limit', 6);
 
         if ($id) {
             $broadcast = Broadcast::with(['employee'])->find($id);
@@ -29,7 +28,7 @@ class BroadcastController extends Controller
 
         $broadcasts = Broadcast::with(['employee']);
 
-        return ResponseFormatter::success($broadcasts->paginate($limit), 'Berhasil mendapatkan data');
+        return ResponseFormatter::success($broadcasts, 'Berhasil mendapatkan data');
     }
 
     public function store(BroadcastRequest $request)
