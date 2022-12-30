@@ -67,4 +67,4 @@ Route::get('/broadcasts', [BroadcastController::class, 'all']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/login-employee', [EmployeeController::class, 'loginEmployee']);
 Route::post('/register', [UserController::class, 'register']);
-Route::post('/register-employee', [Employee::class, 'register']);
+Route::post('/register-employee', [EmployeeController::class, 'registerEmployee']);
