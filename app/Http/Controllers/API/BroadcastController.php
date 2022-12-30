@@ -35,6 +35,7 @@ class BroadcastController extends Controller
     {
         try {
             $request->validated($request->all());
+            $user = $request->user();
             $img_url = null;
             if ($request->file('img_url')) {
                 $img_url = $request->img_url->store('assets/broadcast', 'public');
@@ -44,7 +45,7 @@ class BroadcastController extends Controller
                 'judul' => $request->judul,
                 'body' => $request->body,
                 'img_url' => $img_url,
-                'id_karyawan' => $request->id_karyawan,
+                'id_karyawan' => $user->id,
             ]);
 
             $result = Broadcast::with(['employee'])->find($broadcast->id);
@@ -120,6 +121,8 @@ class BroadcastController extends Controller
             } else {
                 return ResponseFormatter::error(null, 'Failed to delete broadcast');
             }
+        } else {
+            return ResponseFormatter::error(null, 'Failed to delete broadcast');
         }
     }
 }
