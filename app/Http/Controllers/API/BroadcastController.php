@@ -76,7 +76,6 @@ class BroadcastController extends Controller
             $validatedData['judul'] = $request->judul;
             $validatedData['body'] = $request->body;
             $validatedData['img_url'] = $img_url;
-            $validatedData['id_karyawan'] = $request->id_karyawan;
 
 
             $broadcast->update($validatedData);
