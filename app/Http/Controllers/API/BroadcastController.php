@@ -26,7 +26,7 @@ class BroadcastController extends Controller
             }
         }
 
-        $broadcasts = Broadcast::with(['employee']);
+        $broadcasts = Broadcast::with(['employee'])->get();
 
         return ResponseFormatter::success($broadcasts, 'Berhasil mendapatkan data');
     }
