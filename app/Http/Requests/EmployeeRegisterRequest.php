@@ -25,10 +25,10 @@ class EmployeeRegisterRequest extends FormRequest
     {
         return [
             'email' => 'required|email:rfc,dns|max:100|unique:employees',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
             'deskripsi' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:20|unique:employees|confirmed',
+            'no_telepon' => 'required|string|max:20|unique:employees',
         ];
     }
 }
