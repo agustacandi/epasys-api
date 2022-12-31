@@ -91,7 +91,7 @@ class ParkingController extends Controller
         $id = $request->input(('id'));
         $user = $request->user();
         if ($id) {
-            $parking = Parking::where('nomor_parkir', $id)->first();
+            $parking = Parking::with(['user', 'employee', 'vehicle'])->where('nomor_parkir', $id)->first();
             if ($parking) {
                 $parking->update([
                     'is_expired' => true,
