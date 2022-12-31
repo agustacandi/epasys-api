@@ -77,12 +77,15 @@ class BroadcastController extends Controller
             if ($request->file('img_url')) {
                 File::delete(storage_path('app/public/' . $img_url));
                 $img_url = $request->img_url->store('assets/broadcast', 'public');
+                $validatedData['img_url'] = $img_url;
             }
 
-            $validatedData['judul'] = $request->judul;
-            $validatedData['body'] = $request->body;
-            $validatedData['img_url'] = $img_url;
-
+            if ($request->judul) {
+                $validatedData['judul'] = $request->judul;
+            }
+            if ($request->body) {
+                $validatedData['body'] = $request->body;
+            }
 
             $broadcast->update($validatedData);
 
