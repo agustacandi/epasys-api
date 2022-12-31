@@ -24,7 +24,7 @@ class EmployeeController extends Controller
             $role = $request->input('role');
             if ($role) {
                 $roleUppercase = Strings::upper($role);
-                $employee = Employee::where('role', $roleUppercase)->get();
+                $employee = Employee::where('role', $roleUppercase)->where('is_active', true)->get();
                 // $employee = Employee::all();
                 return ResponseFormatter::success($employee, 'Berhasil mendapatkan semua data karyawan');
             }
