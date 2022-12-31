@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('role', ['TEKNISI', 'SATPAM']);
             $table->string('alamat');
             $table->string('no_telepon')->unique();
-            $table->string('avatar');
+            $table->string('avatar')->nullable();
             $table->string('password');
             $table->timestamps();
         });

@@ -91,11 +91,11 @@ class ParkingController extends Controller
         $id = $request->input(('id'));
         $user = $request->user();
         if ($id) {
-            $parking = Parking::where('id', $id)->first();
+            $parking = Parking::where('nomor_parkir', $id)->first();
             if ($parking) {
                 $parking->update([
                     'is_expired' => true,
-                    'created_at' => now('Asia/Jakarta'),
+                    'id_karyawan' => $user->id,
                 ]);
                 return ResponseFormatter::success($parking, 'Berhasil mengonfirmasi check out parkir');
             } else {
