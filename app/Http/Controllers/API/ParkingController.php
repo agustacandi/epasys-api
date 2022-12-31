@@ -16,6 +16,15 @@ class ParkingController extends Controller
     public function get(Request $request)
     {
         try {
+            $id = $request->input('id');
+            if ($id) {
+                $parking = Parking::with(['vehicle', 'employee', 'user'])->where('nomor_parkir', $id)->first();
+                if ($parking) {
+                    return ResponseFormatter::success($parking, 'Berhasil mendapatkan data');
+                } else {
+                    return ResponseFormatter::error(null, 'Data yang anda cari tidak ada', 404);
+                }
+            }
             $user = $request->user();
             $parkings = Parking::with(['vehicle', 'employee', 'user'])->where('id_user', $user->id)->where('is_expired', true)->latest()->get();
             return ResponseFormatter::success($parkings, 'Berhasil mendapatkan data');
