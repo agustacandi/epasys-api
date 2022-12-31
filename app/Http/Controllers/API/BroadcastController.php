@@ -60,11 +60,17 @@ class BroadcastController extends Controller
         }
     }
 
-    public function update(BroadcastRequest $request,)
+    public function update(Request $request,)
     {
         try {
             $id = $request->input('id');
-            $request->validated($request->all());
+            $request->validate(
+                [
+                    'judul' => 'string|max:255',
+                    'body' => 'string',
+                    'img_url' => 'image:png,jpg,jpeg|max:2048',
+                ]
+            );
             $broadcast = Broadcast::where('id', $id)->first();
             $validatedData = $request->all();
             $img_url = $broadcast->img_url;

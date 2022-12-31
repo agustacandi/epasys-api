@@ -194,13 +194,13 @@ class EmployeeController extends Controller
     {
         try {
             $request->validated($request->all());
-
+            $role = 'SATPAM';
             Employee::create([
                 'nama' => $request->nama,
                 'deskripsi' => $request->deskripsi,
                 'email' => $request->email,
                 'alamat' => $request->alamat,
-                'role' => 'SATPAM',
+                'role' => $role,
                 'no_telepon' => $request->no_telepon,
                 'password' => Hash::make($request->password),
             ]);
